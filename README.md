@@ -8,6 +8,7 @@
 |---|---|
 | `index.html` | 앱 전체 (화면, 코디 추천, 사진 배경 제거, 전신 사진에서 옷 추출) |
 | `api/ai.js` | AI 기능용 서버 함수. Claude API를 대신 호출해요 (API 키를 브라우저에 노출하지 않기 위해) |
+| `api/image.js` | 전신 사진 속 옷을 쇼핑몰 상품 사진처럼 새로 그려주는 서버 함수 (OpenAI 이미지 API) |
 | `manifest.webmanifest`, `sw.js`, `icons/` | 홈 화면 설치(PWA)용 설정, 오프라인 캐시, 앱 아이콘 |
 | `samples/samples.json` | 처음 실행할 때 옷장에 넣어주는 샘플 옷 16벌 |
 | `vercel.json` | Vercel 배포 설정 |
@@ -40,6 +41,23 @@ AI 기능: 사진 보고 옷 정보 채우기, 전신 사진에서 옷 자동으
 3. **Deployments** 탭에서 최신 배포의 **⋯ → Redeploy** 를 눌러 적용해요.
 
 > 키는 절대 `index.html`이나 GitHub에 직접 적지 마세요. 환경 변수에만 넣어야 안전해요.
+
+### 전신 사진 → 상품 이미지 만들기 켜기 (선택, 장당 요금 발생)
+
+옷 추가에서 카테고리(예: 아우터)를 고르고 입고 찍은 사진을 올리면, 그 옷만 쇼핑몰 상품 사진처럼 새로 그려줘요.
+이미지를 새로 그리는 건 Claude가 할 수 없어서 OpenAI 이미지 API를 써요.
+
+1. [platform.openai.com](https://platform.openai.com) 에서 가입하고 결제 수단 등록 → **API keys → Create new secret key**.
+   **Limits** 에서 월 사용 한도를 꼭 걸어두세요. 요금은 [OpenAI 가격 페이지](https://openai.com/api/pricing/) 의 이미지 모델 항목에서 확인하세요.
+   이미지 모델은 조직 인증(Verify organization)을 먼저 요구할 수 있어요.
+2. Vercel → **Settings → Environment Variables** 에 추가:
+   - `OPENAI_API_KEY` = 방금 만든 키 (필수)
+   - `OPENAI_IMAGE_MODEL` = 쓸 이미지 모델 (선택, 기본값 `gpt-image-2`. 오류가 나면 OpenAI 문서의 최신 이미지 모델 이름으로 바꿔요)
+   - `IMAGE_QUALITY` = `low` / `medium` / `high` (선택, 기본 `medium`. `low`가 가장 싸고 빨라요)
+3. **Redeploy**.
+
+키를 넣지 않으면 예전처럼 사진 위를 드래그해서 그 부분만 잘라내는 방식으로 동작해요.
+AI가 새로 그린 그림이라 로고, 단추 개수 같은 세부가 실제 옷과 조금 다를 수 있어요.
 
 ## 폰에 설치하기
 

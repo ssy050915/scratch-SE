@@ -3,44 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#F6F2F5" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#17111A" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#E4D7CF">
 <meta name="description" content="날씨에 맞춰 내 옷장에서 코디를 추천해주는 AI 옷장">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Fitting Room">
+<meta name="apple-mobile-web-app-title" content="OOTD_">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Fitting Room</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap">
 <style>
 :root{
-  --bg:#F6F2F5; --surface:#FFFFFF; --surface-2:#FBF8FA; --ink:#281D2B; --muted:#7E7084; --faint:#B7ABBB; --line:#E8E0E9;
-  --accent:#B3305A; --accent-ink:#FFFFFF; --accent-soft:#F7DDE6; --arch:#EFE2EC; --arch-2:#F8EEF3;
-  --butter:#F2E6B8; --sage:#D3DECB; --sky:#D6E2F2;
-  --board:#EDE7EA; --studio:#F2EFF0; --shadow:0 10px 30px -18px rgba(70,30,60,.35);
-  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
-  --kr-display:"Gowun Batang","Nanum Myeongjo",serif;
-  --body:"IBM Plex Sans KR","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    color-scheme:dark;
-    --bg:#17111A; --surface:#211A25; --surface-2:#1C1520; --ink:#F4ECF6; --muted:#A897AE; --faint:#6D5F73; --line:#342A39;
-    --accent:#F0799C; --accent-ink:#2A0F1B; --accent-soft:#40202F; --arch:#2B2130; --arch-2:#241C29;
-    --butter:#4A4226; --sage:#2E3A2C; --sky:#26324A; --board:#2A2230; --studio:#2A232E; --shadow:0 10px 30px -18px rgba(0,0,0,.7);
-  }
-}
-:root[data-theme="dark"]{
-  color-scheme:dark;
-  --bg:#17111A; --surface:#211A25; --surface-2:#1C1520; --ink:#F4ECF6; --muted:#A897AE; --faint:#6D5F73; --line:#342A39;
-  --accent:#F0799C; --accent-ink:#2A0F1B; --accent-soft:#40202F; --arch:#2B2130; --arch-2:#241C29;
-  --butter:#4A4226; --sage:#2E3A2C; --sky:#26324A; --board:#2A2230; --studio:#2A232E; --shadow:0 10px 30px -18px rgba(0,0,0,.7);
+  color-scheme:light;
+  --bg:#E4D7CF; --surface:#F5F2EE; --surface-2:#EFE6E1; --ink:#1F1D1C; --muted:#857A74; --faint:#B3A7A0; --line:#D6C9C1;
+  --accent:#1F1D1C; --accent-ink:#F5F2EE; --accent-soft:#EADDD8; --rose:#D9A3AC; --arch:#EFE6E1; --arch-2:#F5F2EE;
+  --butter:#F1E7D2; --sage:#DDE3D6; --sky:#DDE3EC; --dark:#222120;
+  --board:#EFE8E3; --studio:#F1ECE8; --shadow:0 14px 34px -22px rgba(60,40,30,.35);
+  --sans:"Inter","IBM Plex Sans KR","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+  --display:var(--sans); --kr-display:var(--sans); --body:var(--sans); --mono:var(--sans);
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -205,7 +189,7 @@ textarea.input{resize:vertical;min-height:70px}
 .look .fig{min-width:0}
 .look .body{display:flex;flex-direction:column;gap:8px;min-width:0}
 .look .ttl{font-family:var(--kr-display);font-weight:700;font-size:16px}
-.look .num{font-family:var(--display);font-style:italic;color:var(--accent);font-size:13px}
+.look .num{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
 .look ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;font-size:12.5px}
 .look li{display:flex;gap:7px;align-items:center;min-width:0}
 .look li span.t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -242,6 +226,117 @@ textarea.input{resize:vertical;min-height:70px}
 .demo-note{font-size:11.5px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 12px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 html{color-scheme:light;-webkit-text-size-adjust:100%}
+/* ===== OOTD_ redesign ===== */
+body{background:var(--bg);font-size:14px;letter-spacing:-.005em}
+.app{max-width:560px;padding-inline:14px;padding-block:14px 128px}
+.screen{gap:14px}
+.eyebrow,.label,.cap{font-family:var(--sans);font-style:normal;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:500}
+h1{font-family:var(--sans);font-weight:400;font-size:clamp(28px,8vw,40px);letter-spacing:-.02em;line-height:1.05;text-transform:uppercase}
+h2{font-family:var(--sans);font-weight:500;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+.sync{font-family:var(--sans);letter-spacing:.08em}
+.brandbar{display:flex;justify-content:space-between;align-items:center;padding:10px 4px 6px}
+.brandbar .logo{font-weight:600;font-size:28px;letter-spacing:.01em}
+.brandbar .yr{font-size:13px;letter-spacing:.22em}
+.bento{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:12px}
+.tile{border-radius:28px;background:var(--surface);padding:22px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.55);text-align:left;color:var(--ink);display:flex;flex-direction:column;min-width:0;font:inherit}
+button.tile{cursor:pointer}
+.tile.soft{background:var(--surface-2)}
+.tile.dark{background:var(--dark);color:#F5F2EE;border-color:var(--dark)}
+.tile.dark .cap{color:#CDC4BE}
+.tile.wide{grid-column:1/-1}
+.hello{min-height:340px}
+.hello h2{font-size:clamp(34px,9vw,46px);font-weight:400;line-height:1.08;letter-spacing:-.025em;text-transform:none;margin:56px 0 0}
+.hello p{margin:auto 0 0;color:var(--muted);font-size:15px;line-height:1.45;max-width:9em}
+.round{width:54px;height:54px;border-radius:50%;background:var(--dark);color:#fff;display:grid;place-items:center;border:0;flex:0 0 auto}
+.round svg{width:22px;height:22px}
+.tile .round{position:absolute;right:18px;bottom:18px}
+.date-tile .mon{font-size:15px;letter-spacing:.14em;font-weight:500}
+.date-tile .day{font-size:clamp(56px,15vw,80px);font-weight:300;line-height:1;letter-spacing:-.04em;margin-top:6px}
+.date-tile hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+.date-tile .tmp{font-size:clamp(40px,11vw,56px);font-weight:300;line-height:1;letter-spacing:-.03em}
+.date-tile .cond{margin-top:12px;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;line-height:1.8}
+.date-tile .src{margin-top:auto;font-size:10.5px;color:var(--muted);letter-spacing:.04em;padding-right:70px}
+.deco{position:absolute;right:-24px;bottom:-14px;width:104px;height:104px;color:var(--rose);opacity:.9}
+.date-tile .cond,.date-tile .tmp{position:relative;z-index:1}
+.tile-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.tile-head .ctr{font-size:12px;letter-spacing:.12em;color:var(--muted);background:none;border:0;padding:4px 0;display:inline-flex;gap:6px;align-items:center}
+.tile-head .ctr svg{width:14px;height:14px}
+.look-tile .names{font-size:clamp(28px,7.6vw,42px);font-weight:400;letter-spacing:-.025em;text-transform:uppercase;line-height:1.1;margin:30px 0 10px}
+.look-tile .names .plus{display:block;font-weight:300;color:var(--muted);font-size:26px;line-height:1.15}
+.look-tile .sub{color:var(--muted);font-size:15px}
+.look-tile .foot{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-top:22px}
+.thumbs{display:flex;gap:6px;min-width:0}
+.thumbs span{width:46px;height:46px;border-radius:12px;background:var(--surface-2);display:grid;place-items:center;overflow:hidden;flex:0 0 auto}
+.thumbs img{width:88%;height:88%;object-fit:contain}
+.thumbs svg{width:40px;height:40px}
+.pill{border-radius:99px;background:var(--dark);color:#fff;border:0;padding:14px 22px;font-size:12px;letter-spacing:.16em;font-weight:600;display:inline-flex;gap:8px;align-items:center;white-space:nowrap;text-transform:uppercase}
+.pill svg{width:14px;height:14px}
+.pill.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.pill:disabled{opacity:.45}
+.stat{min-height:250px}
+.big-num{font-size:clamp(56px,15vw,80px);font-weight:300;line-height:1;letter-spacing:-.04em;margin-top:34px;font-variant-numeric:tabular-nums}
+.stat .unit{margin-top:10px}
+.tile .corner{position:absolute;right:22px;bottom:20px;width:26px;height:26px}
+.stack{position:absolute;right:14px;bottom:14px;display:flex}
+.stack span{width:50px;height:64px;border-radius:10px;margin-left:-16px;background:#CFC3BB;display:grid;place-items:center;overflow:hidden;box-shadow:0 4px 10px -6px rgba(0,0,0,.3);transform:rotate(var(--r,0deg))}
+.stack span:nth-child(2){background:#BDB0A7}.stack span:nth-child(3){background:#DBD2CC}
+.stack img{width:84%;height:84%;object-fit:contain}
+.stack svg{width:40px;height:40px}
+@media (max-width:420px){ .bento{gap:10px} .tile{padding:18px;border-radius:24px} .hello{min-height:300px} .stat{min-height:210px} }
+
+/* nav */
+.nav{padding:8px 12px calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,transparent,var(--bg) 40%)}
+.nav-inner{grid-template-columns:repeat(4,1fr);width:min(100%,560px);background:var(--surface);border:1px solid rgba(255,255,255,.6);border-radius:99px;box-shadow:var(--shadow);padding:8px}
+.nav button{flex-direction:row;justify-content:center;padding:18px 4px;border-radius:99px;font-size:12px;letter-spacing:.18em;color:var(--muted);font-weight:500;text-transform:uppercase}
+.nav button svg{display:none}
+.nav button[aria-current="page"]{background:none;color:var(--ink);font-weight:700}
+
+/* closet */
+.page-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:40px 4px 6px}
+.page-head .title{margin:14px 0 8px}
+.page-head .count{font-size:13px;letter-spacing:.14em;color:var(--ink);font-weight:500;display:flex;gap:10px;align-items:center}
+.page-head .count select{border:0;background:none;font-size:12px;letter-spacing:.08em;color:var(--muted);padding:0}
+.round.add{margin-top:30px}
+.round.add svg{width:24px;height:24px}
+.tabs{display:flex;gap:26px;overflow-x:auto;scrollbar-width:none;padding:18px 4px 6px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{border:0;background:none;padding:6px 0;font-size:12.5px;letter-spacing:.16em;color:var(--muted);font-weight:500;text-transform:uppercase;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--ink);font-weight:700}
+.cgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 22px;padding:8px 4px 0}
+.citem{background:none;border:0;padding:0;text-align:left;display:flex;flex-direction:column;gap:12px;min-width:0}
+.citem .ph{aspect-ratio:1/1;width:100%;border-radius:6px;background:var(--surface);display:grid;place-items:center;overflow:hidden}
+.citem .ph img{width:80%;height:80%;object-fit:contain;filter:drop-shadow(0 8px 10px rgba(50,30,20,.14))}
+.citem .ph img.rect{width:100%;height:100%;object-fit:cover;filter:none}
+.citem .ph svg{width:74%;height:74%}
+.citem .nm{font-size:14px;letter-spacing:.06em;font-weight:500;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.citem .ct{font-size:11px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-top:4px}
+.empty{border-color:var(--line);border-radius:20px}
+
+/* profile */
+.plist{background:var(--surface);border-radius:24px;overflow:hidden}
+.prow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px;border:0;border-top:1px solid var(--line);background:none;width:100%;text-align:left;font:inherit;color:inherit}
+.prow:first-child{border-top:0}
+.prow .k{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.prow .v{font-size:13px;color:var(--muted);text-align:right}
+.name-in{border:0;border-bottom:1px solid var(--line);background:none;font-size:clamp(28px,8vw,40px);font-weight:400;letter-spacing:-.02em;text-transform:uppercase;width:100%;padding:4px 0;outline:none}
+.ootd-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ootd-grid .o{display:flex;flex-direction:column;gap:6px}
+.ootd-grid .d{font-size:11px;letter-spacing:.14em;color:var(--muted)}
+.back{border:0;background:none;display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);padding:6px 0;font-weight:500}
+.back svg{width:16px;height:16px}
+
+/* existing screens, re-toned */
+.form,.weather,.look,.guide,.drop,.ai-bar,.demo-note,.seg,.cat-tile,.result,.picker{border-color:transparent}
+.form,.look,.guide{border-radius:24px}
+.btn{border-color:var(--line);background:var(--surface)}
+.chip{background:var(--surface);border-color:var(--line)}
+.ai-bar{background:var(--surface-2)}
+.cat-tile[aria-pressed="true"]{background:var(--surface-2);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.step-h .num{background:var(--ink)}
+.sheet{background:var(--bg)}
+.board{background-color:var(--board)}
+.toast{background:var(--dark);color:#F5F2EE}
+
 body{margin:0}
 :root{padding-top:env(safe-area-inset-top,0px)}
 img{max-width:100%}
@@ -322,6 +417,10 @@ const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7
 
 /* ---------- icons ---------- */
 const I = {
+  arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  upright:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>',
   home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1z"/></svg>',
   closet:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.5a1.8 1.8 0 1 1 1.8-1.8c0 1-1.8 1.4-1.8 2.6v.5"/><path d="M12 7.8 3.5 14a1.2 1.2 0 0 0 .7 2.2h15.6a1.2 1.2 0 0 0 .7-2.2z"/></svg>',
   add:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M12 8v8M8 12h8"/></svg>',
@@ -440,7 +539,7 @@ function boardHTML(o, opts={}){
 
 /* ---------- state ---------- */
 const state = {
-  tab: ['home','closet','add','style'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'home',
+  tab: ['home','closet','add','style','profile'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'home',
   clothes: [], ootd: [], loaded:false, source:'loading',
   profile: LS.get('profile', {name:'나', skin:'#F1D2C0', hair:'#3A2A26', hairStyle:'long'}),
   manualWx: LS.get('weather', {city:'서울', cond:'sun', temp:23, lo:17, hi:26}),
@@ -469,7 +568,7 @@ async function seedSamples(){
   for(const [i, it] of list.entries()) await IDB.put('clothes', {...it, createdAt: now - i*1000});
 }
 async function initData(){
-  initAI(); initWeather();
+  initAI(); initImageGen(); initWeather();
   try{
     await IDB.open();
     if(!LS.get('seeded', false)){ try{ await seedSamples(); LS.set('seeded', true); }catch(e){ console.warn('sample seed failed', e); } }
@@ -513,6 +612,68 @@ async function initAI(){
     sampleLimits = {images:{maxCount:2}};
     render();
   }catch(e){ /* AI is not set up on this site: everything else still works */ }
+}
+
+/* ---------- AI product image: this site's /api/image (OpenAI image edit) ---------- */
+async function initImageGen(){
+  try{ const r = await fetch('api/image'); if(!r.ok) return; const j = await r.json(); if(j.ok){ state.imgGen = true; render(); } }catch(e){}
+}
+/* remove a uniform green-screen background and the green fringe it leaves on the edges */
+function chromaKey(cv){
+  const W=cv.width, H=cv.height, ctx=cv.getContext('2d',{willReadFrequently:true}), im=ctx.getImageData(0,0,W,H), p=im.data;
+  // background colour = average of the border
+  let n=0,sr=0,sg=0,sb=0; for(let x=0;x<W;x+=4){ for(const y of [0,H-1]){ const i=(y*W+x)*4; sr+=p[i]; sg+=p[i+1]; sb+=p[i+2]; n++; } }
+  const br=sr/n, bgc=sg/n, bb=sb/n;
+  const greenish = bgc > br + 40 && bgc > bb + 40;
+  if(!greenish) return removeBackground(cv) || cv;
+  for(let i=0;i<p.length;i+=4){
+    const r=p[i], g=p[i+1], b=p[i+2];
+    const dom = g - Math.max(r, b);            // how much greener than the other channels
+    const dist = Math.hypot(r-br, g-bgc, b-bb);
+    let a = 255;
+    if(dom > 60 || dist < 60) a = 0;
+    else if(dom > 18) a = Math.round(255 * (1 - (dom - 18) / 42));
+    if(dom > 0) p[i+1] = Math.max(r, b) + Math.min(dom, 6);   // despill
+    p[i+3] = Math.min(p[i+3], a);
+  }
+  ctx.putImageData(im,0,0);
+  return trimAlpha(cv) || cv;
+}
+function loadImg(src){ return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; }); }
+function trimAlpha(cv){
+  const W=cv.width, H=cv.height, a=cv.getContext('2d',{willReadFrequently:true}).getImageData(0,0,W,H).data;
+  let x0=W,y0=H,x1=0,y1=0;
+  for(let y=0;y<H;y++) for(let x=0;x<W;x++) if(a[(y*W+x)*4+3]>24){ if(x<x0)x0=x; if(x>x1)x1=x; if(y<y0)y0=y; if(y>y1)y1=y; }
+  if(x1<=x0||y1<=y0) return null;
+  const P=8; x0=Math.max(0,x0-P); y0=Math.max(0,y0-P); x1=Math.min(W-1,x1+P); y1=Math.min(H-1,y1+P);
+  const o=document.createElement('canvas'); o.width=x1-x0+1; o.height=y1-y0+1; o.getContext('2d').drawImage(cv,x0,y0,o.width,o.height,0,0,o.width,o.height); return o;
+}
+async function runGenerate(){
+  const d = state.draft, c = CAT[d.category];
+  if(!state.blob) return;
+  if(state.aiNeedsCode && !LS.get('appCode','')){ const code = window.prompt('AI 기능을 쓰려면 앱 코드를 입력해주세요'); if(!code) return; LS.set('appCode', code.trim()); }
+  state.working = true; d.photo = null;
+  state.wornMsg = `AI가 사진 속 ${c.label}로 상품 이미지를 만드는 중이에요. 20~40초쯤 걸려요…`; render();
+  // fill in name / colour / tags with Claude at the same time, when it's set up
+  const info = (sample && sampleLimits?.images) ? sample.json(`사진은 사람이 옷을 입고 찍은 사진입니다. 이 사람이 착용한 "${c.label}" 한 벌의 정보를 알려주세요. 허용 종류: ${c.types.map(t=>t[0]+'('+t[1]+')').join(', ')}.
+JSON만 출력: {"name": "한국어 상품명(색상+소재+종류, 20자 이내)", "type": "허용 종류 중 하나", "color": "#RRGGBB", "colorName": "한국어 색 이름", "warmth": 1~5, "seasons": ["봄","여름","가을","겨울" 중], "tags": ["미니멀","캐주얼","러블리","오피스","스트릿","빈티지" 중 1~2개]}`, {images:[state.blob], modelTier:'quick'}).catch(()=>null) : Promise.resolve(null);
+  try{
+    const res = await fetch('api/image', {method:'POST', headers:{'content-type':'application/json','x-app-code': LS.get('appCode','')}, body: JSON.stringify({image: await blobToB64(state.blob), category: d.category})});
+    if(res.status===401){ LS.set('appCode',''); throw {msg:'앱 코드가 맞지 않아요. 다시 누르면 코드를 새로 입력할 수 있어요.'}; }
+    if(res.status===429) throw {msg:'요청이 많아요. 잠시 후 다시 시도해주세요.'};
+    const j = await res.json().catch(()=>({}));
+    if(!res.ok || !j.b64) throw {msg: j.error==='moderation_blocked' ? '이 사진으로는 이미지를 만들 수 없어요. 다른 사진으로 시도해주세요.' : '상품 이미지를 만들지 못했어요. 다시 시도해주세요.'};
+    const img = await loadImg('data:image/png;base64,' + j.b64);
+    const cv = document.createElement('canvas'); cv.width = img.width; cv.height = img.height; cv.getContext('2d').drawImage(img,0,0);
+    const px = cv.getContext('2d',{willReadFrequently:true}).getImageData(0,0,4,4).data;
+    let out = px[3] < 200 ? trimAlpha(cv) : chromaKey(cv);   // transparent already, or green screen to remove
+    if(!out) out = cv;
+    const r = await info; if(r){ readForm(); applyExtract(r, true, true); }
+    state.poly = null; state.box = null;
+    finishCut(out, `AI가 만든 ${c.label} 이미지예요. 마음에 들지 않으면 '다시 만들기'를 눌러주세요.`);
+  }catch(e){
+    state.working = false; state.wornMsg = e?.msg || '상품 이미지를 만들지 못했어요. 다시 시도해주세요.'; render();
+  }
 }
 
 /* ---------- weather: Open-Meteo (free, no key) ---------- */
@@ -722,15 +883,17 @@ function render(){
   renderNav();
   const app = $('#app');
   const y = window.scrollY;
-  app.innerHTML = ({home:homeHTML, closet:closetHTML, add:addHTML, style:styleHTML})[state.tab]();
-  ({home:bindHome, closet:bindCloset, add:bindAdd, style:bindStyle})[state.tab]();
+  app.innerHTML = ({home:homeHTML, closet:closetHTML, add:addHTML, style:styleHTML, profile:profileHTML})[state.tab]();
+  ({home:bindHome, closet:bindCloset, add:bindAdd, style:bindStyle, profile:bindProfile})[state.tab]();
   window.scrollTo(0, y);
 }
 function go(tab){ state.tab = tab; try{ history.replaceState(null,'','#'+tab); }catch(e){} render(); window.scrollTo(0,0); }
+function startAdd(cat){ state.editingId=null; state.draft=null; state.blob=null; state.raw=null; state.poly=null; state.box=null; state.wornMsg=''; if(cat && cat!=='all') state.draft = blankDraft(cat); go('add'); }
 function renderNav(){
-  const items = [['home','홈'],['closet','옷장'],['add','옷 추가'],['style','코디 추천']];
-  $('#nav').innerHTML = items.map(([k,l]) => `<button data-go="${k}" ${state.tab===k?'aria-current="page"':''}>${I[k]}<span>${l}</span></button>`).join('');
-  $('#nav').querySelectorAll('[data-go]').forEach(b => b.onclick = () => { if(b.dataset.go==='add'){ state.editingId=null; state.draft=null; state.blob=null; state.raw=null; state.poly=null; state.box=null; state.wornMsg=''; } go(b.dataset.go); });
+  const items = [['home','Home'],['closet','Closet'],['style','Styling'],['profile','Profile']];
+  const cur = state.tab==='add' ? 'closet' : state.tab;
+  $('#nav').innerHTML = items.map(([k,l]) => `<button data-go="${k}" ${cur===k?'aria-current="page"':''}>${l}</button>`).join('');
+  $('#nav').querySelectorAll('[data-go]').forEach(b => b.onclick = () => go(b.dataset.go));
 }
 const syncBadge = () => state.source==='device' ? '<span class="sync on">이 기기에 저장됨</span>' : state.source==='error' ? '<span class="sync">저장소 사용 불가</span>' : '<span class="sync">불러오는 중</span>';
 
@@ -758,43 +921,85 @@ function lookListHTML(o){
   const rows = SLOT_ORDER.filter(k=>o[k]).map(k => { const it = o[k]; return `<button class="look-item" data-open="${it.id}"><span class="th">${thumb(it)}</span><span><span class="ct">${CAT[it.category]?.en||''}</span><span class="nm">${esc(it.name)}</span></span></button>`; });
   return rows.length ? rows.join('') : '<div class="look-empty">옷장에 옷을 추가하면 코디가 채워져요.</div>';
 }
+function decoIcon(c){
+  const sun = '<circle cx="50" cy="50" r="17"/><path d="M50 8v18M50 74v18M8 50h18M74 50h18M20 20l13 13M67 67l13 13M20 80l13-13M67 33l13-13"/>';
+  const cloud = '<path d="M30 74h42a16 16 0 0 0 1-32 22 22 0 0 0-42 6 13 13 0 0 0-1 26z"/>';
+  const g = c==='sun' ? sun : c==='cloud' ? '<g transform="translate(-14 -14) scale(.8)">'+sun+'</g>'+cloud : c==='rain' ? cloud+'<path d="M38 84l-4 8M52 84l-4 8M66 84l-4 8"/>' : c==='snow' ? cloud+'<path d="M38 86h.1M52 90h.1M66 86h.1" stroke-width="6"/>' : cloud;
+  return `<svg class="deco" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" aria-hidden="true">${g}</svg>`;
+}
+const EN_MON = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const shortName = it => it ? `${it.colorName ? it.colorName+' ' : ''}${TYPE_LABEL[it.type]||it.name}`.replace(/·.*$/,'') : '';
 function homeHTML(){
-  const d = new Date();
-  const days = ['일','월','화','수','목','금','토'];
-  const o = state.look || {};
-  const ootdToday = state.ootd.find(x=>x.date===todayKey());
+  const d = new Date(), h = d.getHours();
+  const greet = h < 5 ? 'Good night.' : h < 12 ? 'Good morning.' : h < 18 ? 'Good afternoon.' : 'Good evening.';
+  const w = state.weather, o = state.look || {};
+  const main = o.dress ? [o.dress] : [o.top, o.bottom].filter(Boolean);
+  const names = main.length ? main.map(it => esc(shortName(it))).join('<span class="plus">+</span>') : '옷장을<span class="plus">+</span>채워주세요';
+  const pieces = SLOT_ORDER.filter(k=>o[k]).map(k=>o[k]);
+  const recent = state.ootd.slice(0,3);
+  const nm = state.profile.name && state.profile.name!=='나' ? state.profile.name : 'you';
   return `<section class="screen">
-    <div class="topbar">
-      <div><div class="eyebrow">Fitting room <span style="font-family:var(--kr-display);font-style:normal;font-size:13px;color:var(--muted)">· ${esc(state.profile.name)}의 옷장</span></div>
-      <div class="date-big">${d.getMonth()+1}월 ${d.getDate()}일 <i>${days[d.getDay()]}요일</i></div></div>
-      ${syncBadge()}
-    </div>
-    ${weatherHTML()}
-    <div>
-      <div class="sec-head" style="margin-bottom:10px"><h2>오늘의 추천 코디</h2><span class="label">${esc(lookTitle(o,'전체'))}</span></div>
-      <div class="stage">
-        ${boardHTML(o, {cap: `${Math.round(state.weather.temp)}° · ${state.weather.desc || CONDS[state.weather.cond]}`})}
-        <div class="look-list">${lookListHTML(o)}</div>
+    <div class="brandbar"><span class="logo">OOTD_</span><span class="yr">${d.getFullYear()}</span></div>
+    <div class="bento">
+      <div class="tile soft hello">
+        <span class="cap">Hello, ${esc(nm)}</span>
+        <h2>${greet.replace(' ','<br>')}</h2>
+        <p>What are you wearing today?</p>
+        <button class="round" id="goStyle" aria-label="코디 추천 보기">${I.arrow}</button>
       </div>
-      <div class="stage-actions" style="margin-top:12px">
-        <button class="btn grow" id="reroll">${I.shuffle}다른 코디</button>
-        <button class="btn primary grow" id="saveOotd">${I.save}${ootdToday?'OOTD 다시 저장':'오늘 OOTD로 저장'}</button>
+      <button class="tile date-tile" id="wxBtn" aria-label="날씨 설정 열기">
+        <span class="mon">${EN_MON[d.getMonth()]}</span>
+        <span class="day">${d.getDate()}</span>
+        <hr>
+        <span class="tmp">${Math.round(w.temp)}°</span>
+        <span class="cond">${esc(w.desc || CONDS[w.cond])}<br>${Math.round(w.lo)}° / ${Math.round(w.hi)}° · ${esc(w.city)}</span>
+        ${decoIcon(w.cond)}
+      </button>
+      <div class="tile wide look-tile">
+        <div class="tile-head"><span class="cap" style="color:var(--ink)">Today's look</span><button class="ctr" id="reroll" aria-label="다른 코디 추천">${I.shuffle}SHUFFLE</button></div>
+        <div class="names">${names}</div>
+        <div class="sub">${esc(lookTitle(o,'전체'))} · ${bandFor(w.temp).tip}</div>
+        <div class="foot">
+          <div class="thumbs">${pieces.slice(0,5).map(it=>`<span>${thumb(it)}</span>`).join('')}</div>
+          <button class="pill" id="viewLook">View ${I.arrow}</button>
+        </div>
       </div>
-    </div>
-    <div>
-      <div class="sec-head" style="margin-bottom:10px"><h2>최근 OOTD</h2><span class="label">${state.ootd.length} looks</span></div>
-      ${state.ootd.length ? `<div class="ootd-row">${state.ootd.slice(0,14).map(x => {
-        const dt = new Date(x.date+'T00:00:00');
-        return `<div class="ootd-card">${boardHTML(ootdLook(x), {mini:true})}<span class="d">${dt.getMonth()+1}.${pad(dt.getDate())}</span><span class="w">${x.weather?.temp ?? ''}° ${CONDS[x.weather?.cond]||''}</span></div>`;
-      }).join('')}</div>` : `<div class="empty">아직 저장한 OOTD가 없어요. 오늘 코디를 저장해 기록을 시작해보세요.</div>`}
+      <button class="tile dark stat" id="goCloset">
+        <span class="cap">My closet</span>
+        <span class="big-num">${state.clothes.length}</span>
+        <span class="cap unit">Items</span>
+        <span class="corner">${I.upright}</span>
+      </button>
+      <button class="tile soft stat" id="goOotd">
+        <span class="cap">Recent OOTD</span>
+        <span class="big-num">${pad(state.ootd.length)}</span>
+        <span class="cap unit">Looks</span>
+        <span class="stack">${(recent.length ? recent : [0,0,0]).map((x,i)=>{ const lk = x ? ootdLook(x) : null; const it = lk && (lk.outer || lk.top || lk.dress); return `<span style="--r:${[-6,2,8][i]}deg">${it ? thumb(it) : ''}</span>`; }).join('')}</span>
+      </button>
     </div>
   </section>`;
 }
 function bindHome(){
   $('#wxBtn').onclick = openWeather;
+  $('#goStyle').onclick = () => go('style');
+  $('#goCloset').onclick = () => go('closet');
+  $('#goOotd').onclick = () => go('profile');
   $('#reroll').onclick = () => { setLook(makeOutfit(state.weather, '전체')); state.lookAuto = false; render(); };
-  $('#saveOotd').onclick = saveOotd;
-  bindOpen();
+  $('#viewLook').onclick = openLook;
+}
+function openLook(){
+  const o = state.look || {};
+  const saved = state.ootd.find(x=>x.date===todayKey());
+  openSheet(`
+    <div class="tile-head"><span class="cap" style="color:var(--ink)">Today's look</span><span class="cap">${esc(lookTitle(o,'전체'))}</span></div>
+    ${boardHTML(o, {cap: `${Math.round(state.weather.temp)}° · ${state.weather.desc || CONDS[state.weather.cond]}`})}
+    <div class="look-list" style="flex-direction:column">${lookListHTML(o)}</div>
+    <div class="row"><button class="pill ghost" id="lkShuffle" style="flex:1;justify-content:center">${I.shuffle} Shuffle</button><button class="pill" id="lkSave" style="flex:1;justify-content:center">${saved?'Save again':'Save OOTD'}</button></div>
+  `, sh => {
+    $('#lkShuffle',sh).onclick = () => { setLook(makeOutfit(state.weather,'전체')); state.lookAuto=false; closeSheet(); render(); openLook(); };
+    $('#lkSave',sh).onclick = async () => { await saveOotd(); closeSheet(); render(); };
+    sh.querySelectorAll('[data-open]').forEach(b => b.onclick = () => { closeSheet(); openDetail(b.dataset.open); });
+  });
 }
 function ootdLook(x){ const ids = x.ids||{}, snap = x.snap||{}; return Object.fromEntries(SLOT_ORDER.map(k=>[k, byId(ids[k]) || (snap[k] ? {...snap[k], id:ids[k]} : null)])); }
 function snapOf(o){ return Object.fromEntries(SLOT_ORDER.filter(k=>o[k]).map(k=>[k,{type:o[k].type, color:o[k].color, category:o[k].category, name:o[k].name}])); }
@@ -809,30 +1014,25 @@ function bindOpen(root=document){ root.querySelectorAll('[data-open]').forEach(b
 
 /* closet */
 function closetHTML(){
-  const counts = {all: state.clothes.length}; CATS.forEach(c=>counts[c.id]=state.clothes.filter(x=>x.category===c.id).length);
   let list = state.cat==='all' ? [...state.clothes] : state.clothes.filter(c=>c.category===state.cat);
   if(state.sort==='new') list.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
   if(state.sort==='color') list.sort((a,b)=>lum(b.color)-lum(a.color));
   if(state.sort==='warm') list.sort((a,b)=>(b.warmth||0)-(a.warmth||0));
+  const EN = {all:'All', top:'Tops', bottom:'Bottoms', outer:'Outer', dress:'Dresses', shoes:'Shoes', bag:'Bags'};
+  const tabs = ['all', ...CATS.map(c=>c.id)].filter(k => k==='all' || state.clothes.some(c=>c.category===k) || state.cat===k);
   return `<section class="screen">
-    <div class="topbar"><div><div class="eyebrow">My closet</div><h1>나의 옷장</h1></div>${syncBadge()}</div>
-    <div>
-      <div class="cat-tabs" role="tablist">
-        ${[['all','전체'],...CATS.map(c=>[c.id,c.label])].map(([k,l])=>`<button class="cat-tab" role="tab" data-cat="${k}" aria-selected="${state.cat===k}">${l}<span class="n">${counts[k]}</span></button>`).join('')}
-      </div>
+    <div class="page-head">
+      <div><div class="cap">My closet</div><h1 class="title">Your clothes</h1>
+        <div class="count">${list.length} ITEMS <select id="sortSel" aria-label="정렬"><option value="new" ${state.sort==='new'?'selected':''}>최근 등록순</option><option value="color" ${state.sort==='color'?'selected':''}>밝은 색순</option><option value="warm" ${state.sort==='warm'?'selected':''}>따뜻한 순</option></select></div></div>
+      <button class="round add" id="gridAdd" aria-label="옷 추가하기">${I.plus}</button>
     </div>
-    ${state.clothes.some(c=>/^s\d\d$/.test(c.id)) ? `<div class="demo-note row" style="justify-content:space-between"><span>샘플로 넣어둔 옷 15벌이에요. 내 옷을 넣고 나면 한 번에 지울 수 있어요.</span><button class="btn small" id="clearSamples">예시 옷 지우기</button></div>` : ''}
-    <div class="toolbar"><span>${list.length}개의 아이템</span>
-      <select id="sortSel" aria-label="정렬"><option value="new" ${state.sort==='new'?'selected':''}>최근 등록순</option><option value="color" ${state.sort==='color'?'selected':''}>밝은 색순</option><option value="warm" ${state.sort==='warm'?'selected':''}>따뜻한 순</option></select>
-    </div>
-    ${!state.loaded ? '<div class="empty">옷장을 불러오는 중…</div>' : `<div class="grid">
-      ${list.map(it => `<button class="card" data-open="${it.id}">
-        <div class="img">${thumb(it)}<span class="badge">${esc(TYPE_LABEL[it.type]||'')}</span></div>
-        <div><div class="brand">${esc(it.brand || CAT[it.category]?.en || '')}</div><div class="name">${esc(it.name)}</div></div>
-        <div class="meta"><span class="dot" style="background:${esc(it.color)}"></span>${esc(it.colorName||'')}${(it.tags||[]).length?' · '+esc(it.tags.slice(0,2).join(' ')):''}</div>
+    <div class="tabs" role="tablist">${tabs.map(k=>`<button role="tab" data-cat="${k}" aria-selected="${state.cat===k}">${EN[k]}</button>`).join('')}</div>
+    ${!state.loaded ? '<div class="empty">옷장을 불러오는 중…</div>' : list.length ? `<div class="cgrid">
+      ${list.map(it => `<button class="citem" data-open="${it.id}">
+        <div class="ph">${thumb(it)}</div>
+        <div><div class="nm">${esc(it.name)}</div><div class="ct">${({top:'Top',bottom:'Bottom',outer:'Outer',dress:'Dress',shoes:'Shoes',bag:'Bag'})[it.category]||''} · ${esc(it.colorName||'')}</div></div>
       </button>`).join('')}
-      <button class="add-card" id="gridAdd">${I.add.replace('<svg','<svg width="26" height="26"')}<span>옷 추가하기</span></button>
-    </div>`}
+    </div>` : `<div class="empty">아직 이 카테고리에 옷이 없어요. 오른쪽 위 + 로 추가해보세요.</div>`}
   </section>`;
 }
 function bindCloset(){
@@ -845,8 +1045,44 @@ function bindCloset(){
     try{ for(const c of state.clothes.filter(c=>/^s\d\d$/.test(c.id))) await removeItem(c.id); state.look=null; afterData(); toast('예시 옷을 지웠어요'); }
     catch(e){ toast('지우지 못했어요'); cs.disabled=false; }
   }; }
-  const ga = $('#gridAdd'); if(ga) ga.onclick = () => { state.editingId=null; state.draft=null; state.blob=null; if(state.cat!=='all') state.draft = blankDraft(state.cat); go('add'); };
+  const ga = $('#gridAdd'); if(ga) ga.onclick = () => startAdd(state.cat);
   bindOpen();
+}
+
+/* profile */
+function profileHTML(){
+  const nm = state.profile.name && state.profile.name!=='나' ? state.profile.name : '';
+  const samples = state.clothes.filter(c=>/^s\d\d$/.test(c.id)).length;
+  const days = new Set(state.ootd.map(o=>o.date)).size;
+  return `<section class="screen">
+    <div class="page-head"><div style="flex:1"><div class="cap">Profile</div>
+      <input class="name-in" id="pName" value="${esc(nm)}" placeholder="YOUR NAME" maxlength="14" aria-label="이름"></div></div>
+    <div class="bento">
+      <button class="tile dark stat" id="pCloset" style="min-height:180px"><span class="cap">Items</span><span class="big-num">${state.clothes.length}</span><span class="corner">${I.upright}</span></button>
+      <div class="tile soft stat" style="min-height:180px"><span class="cap">Looks saved</span><span class="big-num">${pad(days)}</span></div>
+    </div>
+    <div class="plist">
+      <button class="prow" id="pWx"><span class="k">Weather</span><span class="v">${state.wxMode==='auto'?'자동 · '+esc(state.weather.city):'직접 입력'} ›</span></button>
+      <div class="prow"><span class="k">AI 정보 채우기</span><span class="v">${sample?'연결됨':'꺼짐'}</span></div>
+      <div class="prow"><span class="k">AI 상품 이미지</span><span class="v">${state.imgGen?'연결됨':'꺼짐'}</span></div>
+      ${state.aiNeedsCode ? `<button class="prow" id="pCode"><span class="k">앱 코드</span><span class="v">${LS.get('appCode','')?'입력됨 · 다시 입력':'입력하기'} ›</span></button>` : ''}
+      ${samples ? `<button class="prow" id="pSamples"><span class="k">샘플 옷 지우기</span><span class="v">${samples}벌 ›</span></button>` : ''}
+      <div class="prow"><span class="k">저장 위치</span><span class="v">이 기기 (브라우저)</span></div>
+    </div>
+    <div class="tile-head" style="padding:10px 4px 0"><h2>Recent OOTD</h2><span class="cap">${state.ootd.length} looks</span></div>
+    ${state.ootd.length ? `<div class="ootd-grid">${state.ootd.slice(0,30).map(x=>{ const dt=new Date(x.date+'T00:00:00'); return `<div class="o">${boardHTML(ootdLook(x),{mini:true})}<span class="d">${EN_MON[dt.getMonth()]} ${dt.getDate()} · ${x.weather?.temp ?? ''}°</span></div>`; }).join('')}</div>` : '<div class="empty">아직 저장한 OOTD가 없어요. 홈의 Today\'s look에서 저장해보세요.</div>'}
+  </section>`;
+}
+function bindProfile(){
+  const n = $('#pName'); n.onchange = () => { state.profile = {...state.profile, name: n.value.trim() || '나'}; LS.set('profile', state.profile); toast('이름을 저장했어요'); };
+  $('#pCloset').onclick = () => go('closet');
+  $('#pWx').onclick = openWeather;
+  const c = $('#pCode'); if(c) c.onclick = () => { const v = window.prompt('AI 기능 앱 코드를 입력해주세요'); if(v!=null){ LS.set('appCode', v.trim()); render(); } };
+  const sp = $('#pSamples');
+  if(sp){ let armed=false; sp.onclick = async () => {
+    if(!armed){ armed=true; sp.querySelector('.v').textContent='한 번 더 누르면 삭제돼요'; return; }
+    try{ for(const c of state.clothes.filter(c=>/^s\d\d$/.test(c.id))) await removeItem(c.id); state.look=null; afterData(); toast('샘플 옷을 지웠어요'); }catch(e){ toast('지우지 못했어요'); }
+  }; }
 }
 
 /* detail sheet */
@@ -937,7 +1173,8 @@ function addHTML(){
   const d = state.draft, editing = !!state.editingId;
   const canImg = !!sampleLimits?.images;
   return `<section class="screen">
-    <div class="topbar"><div><div class="eyebrow">${editing?'Edit item':'New in'}</div><h1>${editing?'옷 정보 수정':'옷 추가하기'}</h1></div>${syncBadge()}</div>
+    <button class="back" id="backCloset">${I.back} Closet</button>
+    <div class="topbar"><div><div class="eyebrow">${editing?'Edit item':'New in'}</div><h1>${editing?'옷 정보 수정':'옷 추가하기'}</h1></div></div>
     ${editing?'':`<div class="seg" role="tablist"><button role="tab" data-mode="photo" aria-selected="${state.mode==='photo'}">사진으로</button><button role="tab" data-mode="link" aria-selected="${state.mode==='link'}">링크로</button></div>`}
     ${editing ? itemPhotoHTML(d, true) : state.mode==='photo' ? `
       <div class="step"><div class="step-h"><span class="num">1</span>어떤 옷을 등록할까요?</div>
@@ -945,7 +1182,7 @@ function addHTML(){
       </div>
       <div class="step"><div class="step-h"><span class="num">2</span>어떤 사진인가요?</div>
         <div class="seg" role="tablist"><button role="tab" data-shot="item" aria-selected="${state.shot!=='worn'}">옷만 있는 사진</button><button role="tab" data-shot="worn" aria-selected="${state.shot==='worn'}">입고 찍은 전신 사진</button></div>
-        <p class="small-note">${state.shot==='worn' ? `사진 속에서 <b>${CAT[d.category].label}</b>만 찾아 배경 없이 잘라내요.` : '쇼핑몰 상품 이미지나 바닥에 펼쳐 찍은 사진이에요.'}</p>
+        <p class="small-note">${state.shot==='worn' ? (state.imgGen ? `사진 속 <b>${CAT[d.category].label}</b>를 AI가 상품 사진처럼 새로 만들어요.` : `사진 속에서 <b>${CAT[d.category].label}</b>만 찾아 배경 없이 잘라내요.`) : '쇼핑몰 상품 이미지나 바닥에 펼쳐 찍은 사진이에요.'}</p>
       </div>
       <div class="step"><div class="step-h"><span class="num">3</span>사진 올리기</div>
         ${state.shot==='worn' ? wornHTML(d) : itemPhotoHTML(d, false)}
@@ -994,16 +1231,16 @@ function wornHTML(d){
   const bx = state.box ? `<rect x="${Math.min(state.box[0],state.box[2])}" y="${Math.min(state.box[1],state.box[3])}" width="${Math.abs(state.box[2]-state.box[0])}" height="${Math.abs(state.box[3]-state.box[1])}" fill="rgba(179,48,90,.10)" stroke="#B3305A" stroke-width="2" vector-effect="non-scaling-stroke"/>` : '';
   return `<div class="worn">
       <div class="picker" id="picker"><img src="${state.rawURL}" alt="올린 전신 사진"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none">${ov}<g id="boxLayer">${bx}</g></svg></div>
-      <div class="step" style="gap:6px"><span class="label">추출한 ${esc(label)}</span>
-        <div class="result">${d.photo ? `<img src="${esc(d.photo)}" alt="추출한 옷">` : `<span>${state.working ? '찾는 중…' : canAI ? 'AI로 찾거나<br>사진 위를 드래그해주세요' : `사진 위에서 ${esc(label)}를<br>드래그로 감싸주세요`}</span>`}</div>
+      <div class="step" style="gap:6px"><span class="label">${state.imgGen ? 'AI가 만든' : '추출한'} ${esc(label)}</span>
+        <div class="result">${d.photo ? `<img src="${esc(d.photo)}" alt="${esc(label)} 이미지">` : `<span>${state.working ? (state.imgGen ? '만드는 중…' : '찾는 중…') : state.imgGen ? '상품 이미지 만들기를<br>눌러주세요' : canAI ? 'AI로 찾거나<br>사진 위를 드래그해주세요' : `사진 위에서 ${esc(label)}를<br>드래그로 감싸주세요`}</span>`}</div>
       </div>
     </div>
     <div class="status" id="wornStatus">${esc(state.wornMsg||'')}</div>
     <div class="row" style="flex-wrap:wrap">
-      <button type="button" class="btn small accent" id="aiFind" ${canAI && !state.working ? '' : 'disabled'}>${I.style.replace('<svg','<svg class="spark"')}AI로 ${esc(label)} 찾기</button>
+      ${state.imgGen ? `<button type="button" class="btn small accent" id="aiGen" ${state.working ? 'disabled' : ''}>${I.style.replace('<svg','<svg class="spark"')}${d.photo ? '다시 만들기' : '상품 이미지 만들기'}</button>` : `<button type="button" class="btn small accent" id="aiFind" ${canAI && !state.working ? '' : 'disabled'}>${I.style.replace('<svg','<svg class="spark"')}AI로 ${esc(label)} 찾기</button>`}
       <button type="button" class="btn small" id="swapPhoto">사진 바꾸기</button>
     </div>
-    <p class="small-note">결과가 어긋나면 사진 위에서 ${esc(label)} 부분을 드래그해 네모로 감싸주세요. 그 안에서 다시 잘라내요.${canAI?'':' (이 사이트에 AI가 연결되지 않았어요)'}</p>`;
+    <p class="small-note">${state.imgGen ? `사진 속 ${esc(label)}를 보고 AI가 쇼핑몰 상품 사진처럼 새로 그려요. 실제 옷과 조금 다를 수 있으니 확인해주세요. 사진 위를 드래그하면 AI 없이 그 부분만 잘라낼 수도 있어요.` : `결과가 어긋나면 사진 위에서 ${esc(label)} 부분을 드래그해 네모로 감싸주세요. 그 안에서 다시 잘라내요.${canAI?'':' (이 사이트에 AI가 연결되지 않았어요)'}`}</p>`;
 }
 function readForm(){
   const d = state.draft;
@@ -1014,11 +1251,13 @@ function readForm(){
 }
 function bindAdd(){
   const d = state.draft;
+  const bk = $('#backCloset'); if(bk) bk.onclick = () => { state.editingId=null; state.draft=null; go('closet'); };
   document.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => { readForm(); state.mode = b.dataset.mode; render(); });
   document.querySelectorAll('[data-pcat]').forEach(b => b.onclick = () => { readForm(); d.category = b.dataset.pcat; d.type = CAT[d.category].types[0][0]; if(state.shot==='worn'){ d.photo=null; state.poly=null; state.box=null; state.wornMsg=''; } render(); });
   document.querySelectorAll('[data-shot]').forEach(b => b.onclick = () => { readForm(); state.shot = b.dataset.shot; d.photo=null; state.raw=null; state.blob=null; state.poly=null; state.box=null; state.wornMsg=''; render(); });
   const sw = $('#swapPhoto'); if(sw) sw.onclick = () => $('#fileIn').click();
   const af = $('#aiFind'); if(af) af.onclick = runFind;
+  const ag = $('#aiGen'); if(ag) ag.onclick = runGenerate;
   bindPicker();
   const drop = $('#drop');
   if(drop){
@@ -1075,7 +1314,7 @@ function takeFile(f){
     const fl = document.createElement('canvas'); fl.width=W; fl.height=H; const fx=fl.getContext('2d'); fx.fillStyle='#fff'; fx.fillRect(0,0,W,H); fx.drawImage(cv,0,0);
     if(state.shot==='worn' && state.mode==='photo' && !state.editingId){
       state.rawURL = fl.toDataURL('image/jpeg', .85); state.poly=null; state.box=null; state.draft.photo=null; state.wornMsg='';
-      fl.toBlob(b => { state.blob = b; render(); if(sample && sampleLimits?.images) runFind(); else { state.wornMsg = `사진 위에서 ${CAT[state.draft.category].label} 부분을 드래그해 감싸주세요.`; render(); } }, 'image/jpeg', 0.85);
+      fl.toBlob(b => { state.blob = b; render(); if(state.imgGen) runGenerate(); else if(sample && sampleLimits?.images) runFind(); else { state.wornMsg = `사진 위에서 ${CAT[state.draft.category].label} 부분을 드래그해 감싸주세요.`; render(); } }, 'image/jpeg', 0.85);
       return;
     }
     fl.toBlob(b => { state.blob = b; }, 'image/jpeg', 0.85);
@@ -1256,7 +1495,7 @@ function styleHTML(){
   if(!state.looks.length && state.loaded) state.looks = genLooks();
   const w = state.weather, b = bandFor(w.temp);
   return `<section class="screen">
-    <div class="topbar"><div><div class="eyebrow">Styled for today</div><h1>코디 추천</h1></div>${syncBadge()}</div>
+    <div class="page-head" style="padding-top:28px"><div><div class="cap">Styling</div><h1 class="title">Today's looks</h1><div class="count">${esc(state.weather.city)} · ${Math.round(state.weather.temp)}°</div></div></div>
     <div class="demo-note">${esc(w.city)} ${Math.round(w.temp)}° ${CONDS[w.cond]} 기준 · <b>${b.tip}</b> 차림을 중심으로 옷장 안에서만 골라요.</div>
     <div class="field"><span class="flabel">무드</span><div class="chips" id="moods">${['전체',...STYLES].map(m=>`<button class="chip" data-mood="${m}" aria-pressed="${state.mood===m}">${m}</button>`).join('')}</div></div>
     <div class="looks">${state.looks.map((o,i)=>lookCardHTML(o, i, lookTitle(o,state.mood))).join('') || '<div class="empty">옷장에 옷이 더 필요해요.</div>'}</div>
