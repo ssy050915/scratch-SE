@@ -576,7 +576,7 @@ const IDB = {
   put(store, v){ return new Promise((res, rej) => { const t = this.db.transaction(store, 'readwrite'); t.objectStore(store).put(v); t.oncomplete = () => res(); t.onerror = () => rej(t.error); }); },
   del(store, id){ return new Promise((res, rej) => { const t = this.db.transaction(store, 'readwrite'); t.objectStore(store).delete(id); t.oncomplete = () => res(); t.onerror = () => rej(t.error); }); },
 };
-const SAMPLE_VER = 4;
+const SAMPLE_VER = 5;
 const REMOVED_SAMPLES = Array.from({length:15},(_,i)=>'s'+String(i+1).padStart(2,'0'));   // illustrated starter clothes, removed in v4
 async function seedSamples(fromVer){
   const list = await (await fetch('samples/samples.json', {cache:'no-cache'})).json();
