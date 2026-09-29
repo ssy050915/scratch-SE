@@ -10,7 +10,7 @@
 | `api/ai.js` | AI 기능용 서버 함수. Claude API를 대신 호출해요 (API 키를 브라우저에 노출하지 않기 위해) |
 | `api/image.js` | 전신 사진 속 옷을 쇼핑몰 상품 사진처럼 새로 그려주는 서버 함수 (OpenAI 이미지 API) |
 | `manifest.webmanifest`, `sw.js`, `icons/` | 홈 화면 설치(PWA)용 설정, 오프라인 캐시, 앱 아이콘 |
-| `samples/samples.json` | 처음 실행할 때 옷장에 넣어주는 기본 옷 37벌 |
+| `samples/samples.json` | 처음 실행할 때 옷장에 넣어주는 기본 옷 38벌 |
 | `vercel.json` | Vercel 배포 설정 |
 
 ## 데이터는 어디에 저장되나요?

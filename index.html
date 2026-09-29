@@ -576,7 +576,7 @@ const IDB = {
   put(store, v){ return new Promise((res, rej) => { const t = this.db.transaction(store, 'readwrite'); t.objectStore(store).put(v); t.oncomplete = () => res(); t.onerror = () => rej(t.error); }); },
   del(store, id){ return new Promise((res, rej) => { const t = this.db.transaction(store, 'readwrite'); t.objectStore(store).delete(id); t.oncomplete = () => res(); t.onerror = () => rej(t.error); }); },
 };
-const SAMPLE_VER = 5;
+const SAMPLE_VER = 6;
 const REMOVED_SAMPLES = Array.from({length:15},(_,i)=>'s'+String(i+1).padStart(2,'0'));   // illustrated starter clothes, removed in v4
 async function seedSamples(fromVer){
   const list = await (await fetch('samples/samples.json', {cache:'no-cache'})).json();
@@ -859,8 +859,13 @@ function extractGarment(src, init, r, opts={}){
 function maskFromRect(W,H,[x1,y1,x2,y2]){ const m=new Uint8Array(W*H); const a=Math.max(0,Math.round(Math.min(x1,x2)/1000*W)), b=Math.max(0,Math.round(Math.min(y1,y2)/1000*H)), c=Math.min(W,Math.round(Math.max(x1,x2)/1000*W)), d=Math.min(H,Math.round(Math.max(y1,y2)/1000*H)); for(let y=b;y<d;y++) for(let x=a;x<c;x++) m[y*W+x]=1; return m; }
 
 /* ---------- recommendation ---------- */
-function pickFrom(cat, types, mood, withColor, exclude){
-  let pool = state.clothes.filter(c => c.category===cat && !(exclude||[]).includes(c.id));
+/* styling rules: no sneakers with a dress; a shirt is not paired with a skirt (blouses are fine) */
+const isShirt = it => !!it && it.type==='shirt' && /셔츠/.test(it.name||'');
+const isSkirt = it => !!it && (it.type==='skirt' || it.type==='longskirt');
+const isSneaker = it => !!it && it.type==='sneakers';
+function breaksRules(o){ return (o.dress && isSneaker(o.shoes)) || (isShirt(o.top) && isSkirt(o.bottom)); }
+function pickFrom(cat, types, mood, withColor, exclude, ban){
+  let pool = state.clothes.filter(c => c.category===cat && !(exclude||[]).includes(c.id) && !(ban && ban(c)));
   if(!pool.length) return null;
   const scored = pool.map(c => {
     let s = Math.random()*1.2;
@@ -884,11 +889,11 @@ function makeOutfit(w, mood, exclude=[]){
   if(hasDress && Math.random() < b.dress + (mood==='러블리'?.25:0)) o.dress = pickFrom('dress', null, mood, [], exclude);
   if(!o.dress){
     o.top = pickFrom('top', b.top, mood, [], exclude);
-    o.bottom = pickFrom('bottom', b.bottom, mood, [o.top?.color].filter(Boolean), exclude);
+    o.bottom = pickFrom('bottom', b.bottom, mood, [o.top?.color].filter(Boolean), exclude, isShirt(o.top) ? isSkirt : null);
   }
   if(b.outer.length && Math.random() < (b.outerP ?? 1)) o.outer = pickFrom('outer', b.outer, mood, [o.top?.color,o.bottom?.color,o.dress?.color].filter(Boolean), exclude);
   const shoeTypes = w.cond==='snow' ? ['boots','sneakers'] : wet ? ['boots','loafers','sneakers'] : w.temp>=26 ? ['sandals','sneakers','loafers'] : w.temp<10 ? ['boots','loafers','sneakers'] : ['sneakers','loafers','boots'];
-  o.shoes = pickFrom('shoes', shoeTypes, mood, [], exclude);
+  o.shoes = pickFrom('shoes', shoeTypes, mood, [], exclude, o.dress ? isSneaker : null);
   if(Math.random()<.6) o.bag = pickFrom('bag', null, mood, [], exclude);
   return o;
 }
@@ -1577,11 +1582,13 @@ async function runStylist(){
 날씨: ${w.city}, 현재 ${w.temp}°C (최저 ${w.lo}°, 최고 ${w.hi}°), ${CONDS[w.cond]}. 기온 기준 권장 차림: ${bandFor(w.temp).tip}.
 사용자 요청: ${state.aiReq?.trim() || '특별한 일정 없음, 데일리룩'}
 옷장(JSON): ${JSON.stringify(inv)}
-규칙: 각 코디는 (top+bottom) 또는 dress 중 하나를 반드시 포함. outer/shoes/bag은 선택. 반드시 옷장 id만 사용.
+규칙: 각 코디는 (top+bottom) 또는 dress 중 하나를 반드시 포함. outer/shoes/bag은 선택. 반드시 옷장 id만 사용. 원피스(dress)에는 운동화(스니커즈)를 매치하지 말 것. 셔츠 상의에는 치마(스커트)를 매치하지 말 것(블라우스는 괜찮음).
 출력 형식(JSON만): {"looks":[{"title":"8자 이내 코디 이름","items":{"top":"id|null","bottom":"id|null","dress":"id|null","outer":"id|null","shoes":"id|null","bag":"id|null"},"comment":"왜 이 조합인지 친근한 존댓말 2문장"}]}`, {modelTier:'default', cache:false});
     const looks = (r?.looks||[]).map(x => {
       const o = {}; SLOT_ORDER.forEach(k => { const it = byId(x.items?.[k]); o[k] = it && it.category===k ? it : null; });
       if(o.dress){ o.top=null; o.bottom=null; }
+      if(o.dress && isSneaker(o.shoes)) o.shoes = null;
+      if(isShirt(o.top) && isSkirt(o.bottom)) o.bottom = null;
       return {o, title: String(x.title||'AI 코디').slice(0,16), comment: String(x.comment||'').slice(0,200)};
     }).filter(x => x.o.dress || x.o.top || x.o.bottom);
     if(!looks.length) throw {};
