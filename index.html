@@ -67,7 +67,7 @@ h2{font-family:var(--kr-display);font-weight:700;font-size:18px;margin:0;letter-
 .stage{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:10px;align-items:stretch}
 .board{position:relative;aspect-ratio:4/5;width:100%;border-radius:22px;overflow:hidden;background-color:var(--board);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.45 0 0 0 0 0.48 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .board .bi{position:absolute;display:grid;place-items:center}
-.board .bi img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 8px rgba(40,18,30,.22))}
+.board .bi img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 8px rgba(40,18,30,.22))}
 .board .bi img.rect{border-radius:10px;object-fit:cover}
 .board .bi svg{width:100%;height:100%}
 .board .cap{position:absolute;left:14px;bottom:12px;font-family:var(--display);font-style:italic;font-size:14px;color:var(--muted);z-index:5}
@@ -367,6 +367,7 @@ const CATS = [
   {id:'dress', label:'원피스', en:'Dress', types:[['mini','미니 원피스'],['long','롱 원피스']]},
   {id:'shoes', label:'신발', en:'Shoes', types:[['sneakers','스니커즈'],['loafers','로퍼·플랫'],['boots','부츠'],['sandals','샌들']]},
   {id:'bag', label:'가방', en:'Bags', types:[['bag','가방']]},
+  {id:'umbrella', label:'우산', en:'Umbrella', types:[['umbrella','우산']]},
 ];
 const CAT = Object.fromEntries(CATS.map(c=>[c.id,c]));
 const TYPE_LABEL = Object.fromEntries(CATS.flatMap(c=>c.types));
@@ -374,7 +375,7 @@ const TYPE_CAT = Object.fromEntries(CATS.flatMap(c=>c.types.map(t=>[t[0],c.id]))
 const STYLES = ['미니멀','캐주얼','러블리','오피스','스트릿','빈티지'];
 const SEASONS = ['봄','여름','가을','겨울'];
 const CONDS = {sun:'맑음', cloud:'구름 조금', overcast:'흐림', rain:'비', snow:'눈'};
-const SLOT_ORDER = ['outer','top','dress','bottom','shoes','bag'];
+const SLOT_ORDER = ['outer','top','dress','bottom','shoes','bag','umbrella'];
 
 const BANDS = [
   {min:28, max:99, t:'28° 이상', tip:'민소매, 반바지, 원피스', outer:[], top:['sleeveless','tee'], bottom:['shorts','skirt','wide'], dress:.5},
@@ -454,6 +455,7 @@ const TEX = {jersey:[.9,.10], cotton:[1.0,.10], knit:[1.7,.16], fleece:[1.3,.14]
 const TOP_L = 'M32 18 Q50 27 68 18 L80 30 L86 80 L76 82 L70 45 L70 87 L30 87 L30 45 L24 82 L14 80 L20 30 Z';
 const SLEEVE_F = ['M20 40 Q17 60 16 78','M80 40 Q83 60 84 78'];
 const G = {
+  umbrella:{parts:['M45 24 Q50 20 55 24 L60 36 L55 80 L50 90 L45 80 L40 36 Z'], folds:['M47 28 L46 78','M53 28 L54 78'], lights:['M50 30 L50 80'], stitch:['M41 50 H59'], tex:'nylon', pre:(c,s)=>`<path d="M50 24 V12 Q50 5 56.5 5 Q63 5 63 11.5" fill="none" stroke="${shade(c,-.25)}" stroke-width="3" stroke-linecap="round"/>`},
   tee:{parts:['M30 22 L42 16 Q50 23 58 16 L70 22 L84 37 L74 45 L68 39 L68 85 L32 85 L32 39 L26 45 L16 37 Z'], folds:['M40 46 Q44 64 41 84','M61 44 Q57 64 60 84','M26 40 L32 33','M74 40 L68 33'], lights:['M50 30 Q53 56 49 82'], stitch:['M42 17.6 Q50 25.5 58 17.6','M32 82 H68','M18 38.6 L26 44','M82 38.6 L74 44'], tex:'jersey'},
   sleeveless:{parts:['M37 14 Q50 32 63 14 L67 30 Q66 34 68 38 L68 86 L32 86 L32 38 Q34 34 33 30 Z'], folds:['M41 44 Q45 66 42 85','M60 44 Q56 66 59 85'], lights:['M50 36 Q52 60 49 84'], stitch:['M38.5 15.5 Q50 33.5 61.5 15.5','M32 83 H68'], tex:'jersey'},
   shirt:{parts:['M32 18 L44 14 L50 22 L56 14 L68 18 L80 30 L86 79 L76 81 L70 44 L70 87 L30 87 L30 44 L24 81 L14 79 L20 30 Z'], folds:['M38 40 Q42 62 38 86','M62 40 Q58 62 62 86',...SLEEVE_F], lights:['M44 30 Q46 58 44 84','M57 30 Q55 58 57 84'], stitch:['M50 24 V86','M31 84 H69','M15.5 74 L24.6 75.6','M84.5 74 L75.4 75.6'],
@@ -485,7 +487,7 @@ const G = {
   bag:{parts:['M22 40 L78 40 L82 84 Q82 88 78 88 L22 88 Q18 88 18 84 Z'], folds:['M22 48 Q50 52 78 48'], lights:['M26 44 Q50 42 74 44','M24 60 Q23 74 24 84'], stitch:['M23 43 H77','M21.5 85 H78.5','M18.5 53 H81.5'], pre:(c,s)=>`<path d="M34 42 Q34 16 50 16 Q66 16 66 42" fill="none" stroke="${shade(c,-.25)}" stroke-width="3.2"/><path d="M34 42 Q34 18 50 18" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1"/>`,
     extra:(c,s)=>`<path d="M18.5 53 L50 60 L81.5 53" fill="${shade(c,-.08)}" stroke="${s}" stroke-width=".5"/><rect x="46" y="56" width="8" height="7" rx="1.5" fill="#D6B46B" stroke="#A8864A" stroke-width=".5"/>`, tex:'leather', glossy:true},
 };
-const VB = {tee:'12 12 76 76', sleeveless:'24 10 52 80', shirt:'10 10 80 80', knit:'10 14 80 76', sweat:'10 14 80 76', pants:'22 8 56 84', wide:'17 8 66 84', skirt:'18 16 64 74', longskirt:'21 6 58 92', shorts:'21 20 58 52', cardigan:'10 10 80 80', jacket:'9 8 82 86', trench:'10 3 80 95', coat:'10 3 80 95', padding:'8 4 84 92', mini:'19 6 62 88', long:'23 3 54 96', sneakers:'6 42 88 42', loafers:'8 52 84 32', boots:'28 8 60 84', sandals:'8 46 84 40', bag:'14 12 72 80'};
+const VB = {tee:'12 12 76 76', sleeveless:'24 10 52 80', shirt:'10 10 80 80', knit:'10 14 80 76', sweat:'10 14 80 76', pants:'22 8 56 84', wide:'17 8 66 84', skirt:'18 16 64 74', longskirt:'21 6 58 92', shorts:'21 20 58 52', cardigan:'10 10 80 80', jacket:'9 8 82 86', trench:'10 3 80 95', coat:'10 3 80 95', padding:'8 4 84 92', mini:'19 6 62 88', long:'23 3 54 96', sneakers:'6 42 88 42', loafers:'8 52 84 32', boots:'28 8 60 84', sandals:'8 46 84 40', bag:'14 12 72 80', umbrella:'26 2 48 92'};
 function texFor(it){
   const g = G[it.type] || G.tee; let t = g.tex;
   const nm = (it.name||'') + (it.colorName||'');
@@ -526,10 +528,10 @@ const thumb = it => it.photo ? `<img src="${esc(it.photo)}" alt="" ${it.cutout==
 
 /* ---------- flat-lay outfit board ---------- */
 const LAYOUTS = {
-  'outer+sep':   {outer:[1,2,52,58,-4], top:[48,3,48,38,3], bottom:[54,36,40,60,0], bag:[34,60,24,24,-6], shoes:[4,68,38,26,0]},
-  'sep':         {top:[4,4,50,44,-3], bottom:[52,8,42,82,2], bag:[10,50,28,22,-5], shoes:[5,75,40,20,0]},
-  'outer+dress': {outer:[1,2,52,60,-4], dress:[46,2,50,74,2], bag:[60,72,28,24,6], shoes:[4,70,36,26,0]},
-  'dress':       {dress:[24,1,52,76,0], bag:[70,56,28,26,6], shoes:[4,72,36,24,0]},
+  'outer+sep':   {outer:[1,2,52,58,-4], top:[48,3,48,38,3], bottom:[54,36,40,60,0], bag:[34,60,24,24,-6], shoes:[4,68,38,26,0], umbrella:[86,40,12,56,10]},
+  'sep':         {top:[4,4,50,44,-3], bottom:[52,8,42,82,2], bag:[10,50,28,22,-5], shoes:[5,75,40,20,0], umbrella:[88,30,11,62,10]},
+  'outer+dress': {outer:[1,2,52,60,-4], dress:[46,2,50,74,2], bag:[60,72,28,24,6], shoes:[4,70,36,26,0], umbrella:[86,8,12,58,10]},
+  'dress':       {dress:[24,1,52,76,0], bag:[70,56,28,26,6], shoes:[4,72,36,24,0], umbrella:[80,4,14,52,12]},
 };
 const LAYOUTS_WIDE = {
   'outer+sep':   {outer:[2,5,31,84,-3], top:[31,6,27,56,2], bottom:[57,4,19,92,0], bag:[77,8,21,36,6], shoes:[75,62,23,30,0]},
@@ -537,13 +539,20 @@ const LAYOUTS_WIDE = {
   'outer+dress': {outer:[2,5,33,84,-3], dress:[35,2,32,94,1], bag:[70,8,24,38,5], shoes:[69,62,28,30,0]},
   'dress':       {dress:[30,2,36,95,0], bag:[70,10,24,40,5], shoes:[4,60,26,32,0]},
 };
+// rainy day: make room for a folded umbrella on the right edge of the wide board
+const WIDE_UMB = {
+  'outer+sep':   {outer:[1,5,29,84,-3], top:[28,6,25,54,2], bottom:[52,4,17,92,0], bag:[68,6,18,32,6], shoes:[66,62,22,30,0], umbrella:[87,4,11,90,8]},
+  'sep':         {top:[4,6,33,70,-3], bottom:[37,4,22,92,1], bag:[62,8,22,36,5], shoes:[60,62,26,30,0], umbrella:[86,4,12,90,8]},
+  'outer+dress': {outer:[1,5,31,84,-3], dress:[32,2,29,94,1], bag:[63,8,21,34,5], shoes:[61,62,25,30,0], umbrella:[86,4,12,90,8]},
+  'dress':       {dress:[26,2,33,95,0], bag:[62,10,22,38,5], shoes:[3,60,24,32,0], umbrella:[86,4,12,90,8]},
+};
 function boardHTML(o, opts={}){
   o = o || {};
   const has = SLOT_ORDER.some(k=>o[k]);
   if(!has) return `<div class="board ${opts.mini?'mini':''}"><div class="empty-b">옷장에 옷을 추가하면<br>코디가 여기에 펼쳐져요</div></div>`;
   const key = (o.outer ? 'outer+' : '') + (o.dress ? 'dress' : 'sep');
-  const L = (opts.wide ? LAYOUTS_WIDE : LAYOUTS)[key];
-  const order = ['outer','top','bottom','dress','bag','shoes'];
+  const L = (opts.wide ? (o.umbrella ? WIDE_UMB : LAYOUTS_WIDE) : LAYOUTS)[key];
+  const order = ['outer','top','bottom','dress','bag','umbrella','shoes'];
   const items = order.filter(k=>o[k] && L[k]).map((k,i) => {
     const [x,y,w,h,r] = L[k], it = o[k];
     return `<div class="bi" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%;transform:rotate(${r}deg);z-index:${i+1}">${thumb(it)}</div>`;
@@ -576,7 +585,7 @@ const IDB = {
   put(store, v){ return new Promise((res, rej) => { const t = this.db.transaction(store, 'readwrite'); t.objectStore(store).put(v); t.oncomplete = () => res(); t.onerror = () => rej(t.error); }); },
   del(store, id){ return new Promise((res, rej) => { const t = this.db.transaction(store, 'readwrite'); t.objectStore(store).delete(id); t.oncomplete = () => res(); t.onerror = () => rej(t.error); }); },
 };
-const SAMPLE_VER = 6;
+const SAMPLE_VER = 7;
 const REMOVED_SAMPLES = Array.from({length:15},(_,i)=>'s'+String(i+1).padStart(2,'0'));   // illustrated starter clothes, removed in v4
 async function seedSamples(fromVer){
   const list = await (await fetch('samples/samples.json', {cache:'no-cache'})).json();
@@ -708,6 +717,7 @@ async function fetchWeather(lat, lon, city){
   const first = !state.autoWx;
   state.autoWx = {city, cond, desc, temp: Math.round(j.current.temperature_2m), lo: Math.round(j.daily.temperature_2m_min[0]), hi: Math.round(j.daily.temperature_2m_max[0]), rain: j.daily.precipitation_probability_max?.[0], updatedAt: new Date().toISOString(), source:'Open-Meteo'};
   LS.set('lastWx', state.autoWx);
+  if(state.wxMode==='auto') ensureUmbrella();
   if(first && state.wxMode==='auto' && state.lookAuto && state.clothes.length && !state.ootd.some(o=>o.date===todayKey())){ setLook(makeOutfit(state.weather,'전체')); state.looks = []; }
   render();
 }
@@ -739,6 +749,7 @@ function afterData(){
   else { // drop deleted items
     for(const k of Object.keys(state.look)) if(state.look[k] && !byId(state.look[k].id)) state.look[k] = null;
   }
+  ensureUmbrella();
   render();
 }
 const idsToLook = ids => Object.fromEntries(SLOT_ORDER.map(k=>[k, ids[k] ? byId(ids[k]) || null : null]));
@@ -894,8 +905,22 @@ function makeOutfit(w, mood, exclude=[]){
   if(b.outer.length && Math.random() < (b.outerP ?? 1)) o.outer = pickFrom('outer', b.outer, mood, [o.top?.color,o.bottom?.color,o.dress?.color].filter(Boolean), exclude);
   const shoeTypes = w.cond==='snow' ? ['boots','sneakers'] : wet ? ['boots','loafers','sneakers'] : w.temp>=26 ? ['sandals','sneakers','loafers'] : w.temp<10 ? ['boots','loafers','sneakers'] : ['sneakers','loafers','boots'];
   o.shoes = pickFrom('shoes', shoeTypes, mood, [], exclude, o.dress ? isSneaker : null);
+  if(isRainy(w)){ // rainy: prefer rain boots, and always bring an umbrella if there is one
+    const rb = state.clothes.filter(c => c.category==='shoes' && isRainBoot(c) && !exclude.includes(c.id));
+    if(rb.length && Math.random() < .75) o.shoes = rb[Math.floor(Math.random()*rb.length)];
+    o.umbrella = pickFrom('umbrella', null, mood, [], exclude);
+  }
   if(Math.random()<.6) o.bag = pickFrom('bag', null, mood, [], exclude);
   return o;
+}
+/* rain in the forecast = raining now, or a 50%+ chance of rain today (auto weather) */
+function isRainy(w){ return !!w && (w.cond==='rain' || (typeof w.rain==='number' && w.rain >= 50)); }
+function isRainBoot(it){ return /레인|장화|rain/i.test((it.name||'') + ' ' + (it.brand||'')); }
+/* keep today's look in step with the forecast: add an umbrella when rain is expected */
+function ensureUmbrella(){
+  if(!state.look || state.look.umbrella || !isRainy(state.weather)) return;
+  const u = pickFrom('umbrella', null, '전체', [], []);
+  if(u) setLook({...state.look, umbrella:u});
 }
 function lookTitle(o, mood){
   const b = bandFor(state.weather.temp);
@@ -988,7 +1013,7 @@ function homeHTML(){
         <div class="look-board">${boardHTML(o,{wide:true})}</div>
         <div class="foot">
           <div style="min-width:0"><div class="look-name">${main.map(it => esc(shortName(it))).join(' + ') || '옷장을 채워주세요'}</div>
-          <div class="sub">${esc(lookTitle(o,'전체'))} · ${bandFor(w.temp).tip}</div></div>
+          <div class="sub">${esc(lookTitle(o,'전체'))} · ${bandFor(w.temp).tip}${o.umbrella ? ' · 비 소식이 있어 우산을 챙겼어요' : ''}</div></div>
           <button class="pill" id="viewLook">View ${I.arrow}</button>
         </div>
       </div>
@@ -1046,7 +1071,7 @@ function closetHTML(){
   if(state.sort==='new') list.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
   if(state.sort==='color') list.sort((a,b)=>lum(b.color)-lum(a.color));
   if(state.sort==='warm') list.sort((a,b)=>(b.warmth||0)-(a.warmth||0));
-  const EN = {all:'All', top:'Tops', bottom:'Bottoms', outer:'Outer', dress:'Dresses', shoes:'Shoes', bag:'Bags'};
+  const EN = {all:'All', top:'Tops', bottom:'Bottoms', outer:'Outer', dress:'Dresses', shoes:'Shoes', bag:'Bags', umbrella:'Umbrella'};
   const tabs = ['all', ...CATS.map(c=>c.id)].filter(k => k==='all' || state.clothes.some(c=>c.category===k) || state.cat===k);
   return `<section class="screen">
     <div class="page-head">
@@ -1058,7 +1083,7 @@ function closetHTML(){
     ${!state.loaded ? '<div class="empty">옷장을 불러오는 중…</div>' : list.length ? `<div class="cgrid">
       ${list.map(it => `<button class="citem" data-open="${it.id}">
         <div class="ph">${thumb(it)}</div>
-        <div><div class="nm">${esc(it.name)}</div><div class="ct">${({top:'Top',bottom:'Bottom',outer:'Outer',dress:'Dress',shoes:'Shoes',bag:'Bag'})[it.category]||''} · ${esc(it.colorName||'')}</div></div>
+        <div><div class="nm">${esc(it.name)}</div><div class="ct">${({top:'Top',bottom:'Bottom',outer:'Outer',dress:'Dress',shoes:'Shoes',bag:'Bag',umbrella:'Umbrella'})[it.category]||''} · ${esc(it.colorName||'')}</div></div>
       </button>`).join('')}
     </div>` : `<div class="empty">아직 이 카테고리에 옷이 없어요. 오른쪽 위 + 로 추가해보세요.</div>`}
   </section>`;
@@ -1475,8 +1500,8 @@ JSON만 출력: {"found": true 또는 false, "polygon": [[x,y], ...], "name": "�
 }
 const EXTRACT_SCHEMA = `다음 JSON 형식 하나만 출력하세요:
 {"name": "한국어 상품명(색상+소재+종류, 20자 이내)", "brand": "브랜드(모르면 빈 문자열)",
- "category": "top|bottom|outer|dress|shoes|bag 중 하나",
- "type": "category별 허용값 — top: tee|shirt|knit|sweat|sleeveless, bottom: pants|wide|skirt|longskirt|shorts, outer: cardigan|jacket|trench|coat|padding, dress: mini|long, shoes: sneakers|loafers|boots|sandals, bag: bag",
+ "category": "top|bottom|outer|dress|shoes|bag|umbrella 중 하나",
+ "type": "category별 허용값 — top: tee|shirt|knit|sweat|sleeveless, bottom: pants|wide|skirt|longskirt|shorts, outer: cardigan|jacket|trench|coat|padding, dress: mini|long, shoes: sneakers|loafers|boots|sandals, bag: bag, umbrella: umbrella",
  "color": "#RRGGBB 대표 색", "colorName": "한국어 색 이름(예: 크림, 연청, 카멜)",
  "warmth": 1~5 정수(1 아주 얇음, 5 아주 따뜻), "seasons": ["봄","여름","가을","겨울" 중 해당],
  "tags": ["미니멀","캐주얼","러블리","오피스","스트릿","빈티지" 중 1~2개]}`;
@@ -1582,8 +1607,8 @@ async function runStylist(){
 날씨: ${w.city}, 현재 ${w.temp}°C (최저 ${w.lo}°, 최고 ${w.hi}°), ${CONDS[w.cond]}. 기온 기준 권장 차림: ${bandFor(w.temp).tip}.
 사용자 요청: ${state.aiReq?.trim() || '특별한 일정 없음, 데일리룩'}
 옷장(JSON): ${JSON.stringify(inv)}
-규칙: 각 코디는 (top+bottom) 또는 dress 중 하나를 반드시 포함. outer/shoes/bag은 선택. 반드시 옷장 id만 사용. 원피스(dress)에는 운동화(스니커즈)를 매치하지 말 것. 셔츠 상의에는 치마(스커트)를 매치하지 말 것(블라우스는 괜찮음).
-출력 형식(JSON만): {"looks":[{"title":"8자 이내 코디 이름","items":{"top":"id|null","bottom":"id|null","dress":"id|null","outer":"id|null","shoes":"id|null","bag":"id|null"},"comment":"왜 이 조합인지 친근한 존댓말 2문장"}]}`, {modelTier:'default', cache:false});
+규칙: 각 코디는 (top+bottom) 또는 dress 중 하나를 반드시 포함. outer/shoes/bag은 선택. 비 예보가 있으면 옷장에 있는 우산(umbrella)을 꼭 넣을 것. 반드시 옷장 id만 사용. 원피스(dress)에는 운동화(스니커즈)를 매치하지 말 것. 셔츠 상의에는 치마(스커트)를 매치하지 말 것(블라우스는 괜찮음).
+출력 형식(JSON만): {"looks":[{"title":"8자 이내 코디 이름","items":{"top":"id|null","bottom":"id|null","dress":"id|null","outer":"id|null","shoes":"id|null","bag":"id|null","umbrella":"id|null"},"comment":"왜 이 조합인지 친근한 존댓말 2문장"}]}`, {modelTier:'default', cache:false});
     const looks = (r?.looks||[]).map(x => {
       const o = {}; SLOT_ORDER.forEach(k => { const it = byId(x.items?.[k]); o[k] = it && it.category===k ? it : null; });
       if(o.dress){ o.top=null; o.bottom=null; }

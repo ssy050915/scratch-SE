@@ -9,6 +9,7 @@ const WHAT = {
   dress: 'dress (one-piece dress; if top and skirt are a matching set, show them together as one outfit piece)',
   shoes: 'pair of shoes, shown from a 3/4 side view',
   bag: 'bag / handbag',
+  umbrella: 'umbrella, shown neatly folded and closed, standing upright',
 };
 
 module.exports = async (req, res) => {
